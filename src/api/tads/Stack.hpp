@@ -1,46 +1,48 @@
 #ifndef _TSTACK_TAD_
 #define _TSTACK_TAD_
 
-#include <iostream>
 #include "../funciones/lists.hpp"
+#include "List.hpp"
+#include <iostream>
 
 using namespace std;
 
-template<typename T>
+template <typename T>
 struct Stack
 {
+  List<T> l;
 };
 
-template<typename T>
+template <typename T>
 Stack<T> stack()
 {
-   Stack<T> st;
-   return st;
+  Stack<T> st;
+  st.l = list<T>();
+  return st;
 }
 
-template<typename T>
-T* stackPush(Stack<T>& st,T e)
+template <typename T>
+T *stackPush(Stack<T> &st, T e)
 {
-   return NULL;
+  return listAddFirst<T>(st.l, e);
 }
 
-template<typename T>
-T stackPop(Stack<T>& st)
+template <typename T>
+T stackPop(Stack<T> &st)
 {
-   T t;
-   return t;
+  return listRemoveFirst<T>(st.l);
 }
 
-template<typename T>
+template <typename T>
 bool stackIsEmpty(Stack<T> st)
 {
-   return true;
+  return listIsEmpty<T>(st.l);
 }
 
-template<typename T>
+template <typename T>
 int stackSize(Stack<T> st)
 {
-   return 0;
+  return listSize(st.l);
 }
 
 #endif
