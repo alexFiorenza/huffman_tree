@@ -5,6 +5,8 @@
 
 #include <math.h>
 
+#define uchar unsigned char
+
 using namespace std;
 
 struct BitReader
@@ -42,7 +44,7 @@ int bitReaderRead(BitReader &br)
 
 void _readByte(bool arr[8], FILE *f)
 {
-  char byte = read<char>(f);
+  uchar byte = read<uchar>(f);
 
   // Dividir el char en bits y almacenarlos en el array.
   for (int i = 0; i < 8; i++)

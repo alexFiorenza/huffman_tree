@@ -5,6 +5,8 @@
 
 #include <math.h>
 
+#define uchar unsigned char
+
 using namespace std;
 
 struct BitWriter
@@ -24,7 +26,7 @@ BitWriter bitWriter(FILE *f)
 }
 
 // Funciones auxiliares.
-char _boolArrToChar(bool arr[8]);
+uchar _boolArrToChar(bool arr[8]);
 
 void bitWriterWrite(BitWriter &bw, int bit)
 {
@@ -34,7 +36,7 @@ void bitWriterWrite(BitWriter &bw, int bit)
   // Si hay 8 bits escribir un byte.
   if (bw.bitNum == 8)
   {
-    write<char>(bw.f, _boolArrToChar(bw.bits));
+    write<uchar>(bw.f, _boolArrToChar(bw.bits));
     bw.bitNum = 0;
   }
 }
@@ -47,13 +49,13 @@ void bitWriterFlush(BitWriter &bw)
     bw.bits[i] = false;
   }
   // Escribir byte.
-  write<char>(bw.f, _boolArrToChar(bw.bits));
+  write<uchar>(bw.f, _boolArrToChar(bw.bits));
   bw.bitNum = 0;
 }
 
-char _boolArrToChar(bool arr[8])
+uchar _boolArrToChar(bool arr[8])
 {
-  char c = 0;
+  uchar c = 0;
   for (int i = 0; i < 8; i++)
   {
     // Valor numerico de el elemento del array.
