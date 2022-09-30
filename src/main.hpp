@@ -19,24 +19,8 @@ HuffmanTreeInfo *crearArbol(List<HuffmanTreeInfo> lista);
 void cargarCodigosEnTabla(HuffmanTreeInfo *raiz, HuffmanTable tabla[]);
 void grabarArchivoComprimido(string fName, HuffmanTable tabla[]);
 
-void comprimir(string fName)
-{
-  HuffmanTable tabla[256];
-  contarOcurrencias(fName, tabla);
+void comprimir(string fName);
 
-  List<HuffmanTreeInfo> lista = list<HuffmanTreeInfo>();
-  crearLista(lista, tabla);
-
-  HuffmanTreeInfo *raiz = crearArbol(lista);
-
-  cargarCodigosEnTabla(raiz, tabla);
-
-  grabarArchivoComprimido(fName, tabla);
-}
-
-void descomprimir(string fName)
-{
-  // TODO
-}
+void descomprimir(string fName);
 
 #endif // MAIN_H_
