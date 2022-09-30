@@ -11,6 +11,10 @@
 #include "api/tads/Map.hpp"
 #include "api/tads/Queue.hpp"
 #include "api/tads/Stack.hpp"
+
+#include "comprimir.hpp"
+#include "descomprimir.hpp"
+
 #include <iostream>
 
 using namespace std;
