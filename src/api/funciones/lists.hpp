@@ -85,18 +85,13 @@ T remove(Node<T> *&p, K k, int cmpTK(T, K))
 template <typename T>
 T removeFirst(Node<T> *&p)
 {
-  Node<T> *aux = p;
-  if (p != NULL && p->next != NULL)
-  {
-    T data = aux->info;
-    p = aux->next;
-    delete aux;
-    return data;
-  }
-  else
-  {
-    return NULL;
-  }
+  T data = p->info;
+  Node<T> *next = p->next;
+
+  delete p;
+  p = next;
+
+  return data;
 }
 
 template <typename T, typename K>
