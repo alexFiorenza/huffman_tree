@@ -36,9 +36,18 @@ void comprimir(string fName)
 
 void contarOcurrencias(string fName, HuffmanTable tabla[])
 {
-  // TODO
+  // Se crea un mapa que apunte byte(key,char) => ocurrencias (value,int)
+  Map<char, int> mapaByteOcurrencias = map<char, int>();
+  FILE *f = fopen("test.txt", "r+b");
+  while (!feof(f))
+  {
+    unsigned char myByte = read<unsigned char>(f);
+    if (mapContains(mapaByteOcurrencias, myByte))
+    {
+      int *p = *mapGet(mapaByteOcurrencias, myByte);
+    }
+  }
 }
-
 void crearLista(List<HuffmanTreeInfo> lista, HuffmanTable tabla[])
 {
   // TODO
