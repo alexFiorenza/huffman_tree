@@ -22,18 +22,16 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-  // string fName = argv[1];
+  string fName = argv[1];
 
-  // if (!endsWith(fName, ".huf"))
-  // {
-  //   comprimir(fName);
-  // }
-  // else
-  // {
-  //   descomprimir(fName);
-  // }
-  HuffmanTable tabla[256];
-  contarOcurrencias("test.txt", tabla);
+  if (!endsWith(fName, ".huf"))
+  {
+    comprimir(fName);
+  }
+  else
+  {
+    descomprimir(fName);
+  }
   return 0;
 }
 

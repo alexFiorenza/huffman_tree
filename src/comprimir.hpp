@@ -40,7 +40,8 @@ void contarOcurrencias(string fName, HuffmanTable tabla[])
 {
   // Se crea un mapa que apunte byte(key,char) => ocurrencias (value,int)
   Map<unsigned char, int> mapaByteOcurrencias = map<unsigned char, int>();
-  FILE *f = fopen("test.txt", "r+b");
+  const char *c = fName.c_str();
+  FILE *f = fopen(c, "rb");
   while (!feof(f))
   {
     unsigned char byte = read<unsigned char>(f);
@@ -59,6 +60,7 @@ void contarOcurrencias(string fName, HuffmanTable tabla[])
   {
     unsigned char key = mapNextKey<unsigned char, int>(mapaByteOcurrencias);
     int value = *mapGet<unsigned char, int>(mapaByteOcurrencias, key);
+    cout << key << " " << value << endl;
     tabla[mapaByteOcurrencias.pos].codigo = key;
     tabla[mapaByteOcurrencias.pos].count = value;
   }
