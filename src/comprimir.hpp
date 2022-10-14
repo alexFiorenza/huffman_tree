@@ -45,7 +45,7 @@ void crearLista(List<HuffmanTreeInfo> &lista, HuffmanTable tabla[])
 {
   for (int i = 0; i < 256; i++)
   {
-    // Si hay 1 o mas ocurrencias, agregarlo ordenadamente a la lista.
+    // Si hay 1 o mas ocurrencias, agregarlo a la lista.
     if (tabla[i].count > 0)
     {
       HuffmanTreeInfo *hti = huffmanTreeInfo(i, tabla[i].count, NULL, NULL);
@@ -72,7 +72,7 @@ void grabarArchivoComprimido(string fName, HuffmanTable tabla[])
 
 int cmpHuffmanTreeInfoCount(HuffmanTreeInfo a, HuffmanTreeInfo b)
 {
-  return b.n - a.n;
+  return a.n - b.n;
 }
 
 #endif // COMPRIMIR_H_
