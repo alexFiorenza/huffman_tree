@@ -112,11 +112,11 @@ bool mapHasNext(Map<K, V> m)
 {
    if (mapSize<K, V>(m) > m.pos)
    {
+      m.pos++;
       return true;
    }
    else
    {
-      m.pos++;
       return false;
    }
 }
@@ -125,6 +125,7 @@ template <typename K, typename V>
 K mapNextKey(Map<K, V> &m)
 {
    K key = *arrayGet<K>(m.keys, m.pos);
+   m.pos++;
    return key;
 }
 

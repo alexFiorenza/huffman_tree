@@ -10,6 +10,8 @@
 #include "api/tads/Map.hpp"
 #include "api/tads/Queue.hpp"
 #include "api/tads/Stack.hpp"
+#include "api/tads/BitReader.hpp"
+#include "api/tads/BitWriter.hpp"
 
 #include "comprimir.hpp"
 #include "descomprimir.hpp"
@@ -30,7 +32,6 @@ int main(int argc, char **argv)
   {
     descomprimir(fName);
   }
-
   return 0;
 }
 
