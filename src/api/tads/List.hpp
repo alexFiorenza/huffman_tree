@@ -65,8 +65,7 @@ template <typename T>
 int listSize(List<T> lst)
 {
   int i = 0;
-  // Count the nodes
-  for (Node<T> *aux = lst.node; aux != NULL; i++)
+  for (Node<T> *aux = lst.node; aux != NULL; aux = aux->next)
   {
     i++;
   }

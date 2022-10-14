@@ -124,42 +124,40 @@ Node<T> *find(Node<T> *p, K k, int cmpTK(T, K))
 template <typename T>
 Node<T> *orderedInsert(Node<T> *&p, T e, int cmpTT(T, T))
 {
-  Node<T> *aux = new Node<T>();
-  // Check if list is empty
+  Node<T> *aux = p;
+
+  // Si la lista esta vacia agregar el elem
   if (p == NULL)
   {
-    add(p, e);
+    return add(p, e);
   }
-  else
-  {
-    // Check if is the first element
-    if (cmpTT(p->info, e) <= 0)
-    {
-      addFirst(p, e);
-    }
-    else
-    {
-      // Iterate over list
-      while (aux->next != NULL)
-      {
 
-        Node<T> *next = aux->next;
-        if (cmpTT(e, next->info) <= 0)
-        {
-          Node<T> *newNode = new Node<T>();
-          // aux -> nextNode
-          // aux -> newNode -> nextNode
-          //  Insert a new node between the one that I'm iterating and the next
-          //  one
-          newNode->info = e;
-          newNode->next = next;
-          aux->next = newNode;
-          return newNode;
-        }
-        aux = aux->next;
-      }
-    }
+  // Checkear si es menor o igual al primer elemento y agregarlo ahí
+  if (cmpTT(e, aux->info) <= 0)
+  {
+    return addFirst(p, e);
   }
+
+  while (aux->next != NULL)
+  {
+    Node<T> *next = aux->next;
+
+    // Si el elemento es menor o igual al prox insertarlo en esta posicion
+    if (cmpTT(e, next->info) <= 0)
+    {
+      Node<T> *nuevo = new Node<T>();
+      nuevo->info = e;
+      nuevo->next = next;
+
+      aux->next = nuevo;
+
+      return nuevo;
+    }
+
+    aux = aux->next;
+  }
+
+  // Si el elem no se menor o igual a ninguno, insertarlo al final.
   return add<T>(p, e);
 }
 
