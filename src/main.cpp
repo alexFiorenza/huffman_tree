@@ -1,7 +1,6 @@
 #ifndef _MAIN
 #define _MAIN
 
-#include "main.hpp"
 #include "api/funciones/files.hpp"
 #include "api/funciones/strings.hpp"
 #include "api/funciones/tokens.hpp"
@@ -11,6 +10,8 @@
 #include "api/tads/Map.hpp"
 #include "api/tads/Queue.hpp"
 #include "api/tads/Stack.hpp"
+#include "api/tads/BitReader.hpp"
+#include "api/tads/BitWriter.hpp"
 
 #include "comprimir.hpp"
 #include "descomprimir.hpp"
@@ -18,6 +19,7 @@
 #include <iostream>
 
 using namespace std;
+
 int main(int argc, char **argv)
 {
   string fName = argv[1];
@@ -30,7 +32,6 @@ int main(int argc, char **argv)
   {
     descomprimir(fName);
   }
-
   return 0;
 }
 
