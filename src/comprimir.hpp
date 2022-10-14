@@ -14,10 +14,12 @@ struct HuffmanTable
 
 // Declaraciones de funciones
 void contarOcurrencias(string fName, HuffmanTable tabla[]);
-void crearLista(List<HuffmanTreeInfo> lista, HuffmanTable tabla[]);
+void crearLista(List<HuffmanTreeInfo> &lista, HuffmanTable tabla[]);
 HuffmanTreeInfo *crearArbol(List<HuffmanTreeInfo> lista);
 void cargarCodigosEnTabla(HuffmanTreeInfo *raiz, HuffmanTable tabla[]);
 void grabarArchivoComprimido(string fName, HuffmanTable tabla[]);
+
+int cmpHuffmanTreeInfoCount(HuffmanTreeInfo a, HuffmanTreeInfo b);
 
 void comprimir(string fName)
 {
@@ -48,9 +50,19 @@ void contarOcurrencias(string fName, HuffmanTable tabla[])
     }
   }
 }
-void crearLista(List<HuffmanTreeInfo> lista, HuffmanTable tabla[])
+
+void crearLista(List<HuffmanTreeInfo> &lista, HuffmanTable tabla[])
 {
-  // TODO
+  for (int i = 0; i < 256; i++)
+  {
+    // Si hay 1 o mas ocurrencias, agregarlo a la lista.
+    if (tabla[i].count > 0)
+    {
+      HuffmanTreeInfo *hti = huffmanTreeInfo(i, tabla[i].count, NULL, NULL);
+      listAdd<HuffmanTreeInfo>(lista, *hti);
+    }
+  }
+  listSort<HuffmanTreeInfo>(lista, cmpHuffmanTreeInfoCount);
 }
 
 HuffmanTreeInfo *crearArbol(List<HuffmanTreeInfo> lista)
@@ -66,6 +78,11 @@ void cargarCodigosEnTabla(HuffmanTreeInfo *raiz, HuffmanTable tabla[])
 void grabarArchivoComprimido(string fName, HuffmanTable tabla[])
 {
   // TODO
+}
+
+int cmpHuffmanTreeInfoCount(HuffmanTreeInfo a, HuffmanTreeInfo b)
+{
+  return a.n - b.n;
 }
 
 #endif // COMPRIMIR_H_
