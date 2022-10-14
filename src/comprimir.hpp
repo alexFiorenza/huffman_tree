@@ -57,7 +57,29 @@ void crearLista(List<HuffmanTreeInfo> &lista, HuffmanTable tabla[])
 
 HuffmanTreeInfo *crearArbol(List<HuffmanTreeInfo> lista)
 {
-  // TODO
+  int i = 1;
+  while (listSize<HuffmanTreeInfo>(lista) > 1)
+  {
+    HuffmanTreeInfo der = listRemoveFirst<HuffmanTreeInfo>(lista);
+    HuffmanTreeInfo izq = listRemoveFirst<HuffmanTreeInfo>(lista);
+
+    long sumaOcurrencias = der.n + izq.n;
+    HuffmanTreeInfo *nuevoNodo = new HuffmanTreeInfo();
+
+    nuevoNodo->c = 255 + i;
+    nuevoNodo->n = sumaOcurrencias;
+    nuevoNodo->left = &izq;
+    nuevoNodo->right = &der;
+
+    listOrderedInsert<HuffmanTreeInfo>(lista, *nuevoNodo,
+                                       cmpHuffmanTreeInfoCount);
+
+    i++;
+  }
+
+  listReset<HuffmanTreeInfo>(lista);
+  HuffmanTreeInfo *raiz = listNext<HuffmanTreeInfo>(lista);
+  return raiz;
 }
 
 void cargarCodigosEnTabla(HuffmanTreeInfo *raiz, HuffmanTable tabla[])
