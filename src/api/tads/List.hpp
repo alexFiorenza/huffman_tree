@@ -69,7 +69,7 @@ template <typename T> void listFree(List<T> &lst) { free<T>(lst.node); }
 
 template <typename T> T *listOrderedInsert(List<T> &lst, T t, int cmpTT(T, T))
 {
-  return &orderedInsert<T>(lst.node, t, cmpTT);
+  return &(orderedInsert<T>(lst.node, t, cmpTT)->info);
 }
 
 template <typename T> void listSort(List<T> &lst, int cmpTT(T, T))

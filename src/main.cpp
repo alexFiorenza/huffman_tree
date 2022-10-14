@@ -1,7 +1,6 @@
 #ifndef _MAIN
 #define _MAIN
 
-#include "main.hpp"
 #include "api/funciones/files.hpp"
 #include "api/funciones/strings.hpp"
 #include "api/funciones/tokens.hpp"
@@ -18,6 +17,7 @@
 #include <iostream>
 
 using namespace std;
+
 int main(int argc, char **argv)
 {
   string fName = argv[1];
