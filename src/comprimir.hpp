@@ -39,15 +39,28 @@ void comprimir(string fName)
 void contarOcurrencias(string fName, HuffmanTable tabla[])
 {
   // Se crea un mapa que apunte byte(key,char) => ocurrencias (value,int)
-  Map<char, int> mapaByteOcurrencias = map<char, int>();
+  Map<unsigned char, int> mapaByteOcurrencias = map<unsigned char, int>();
   FILE *f = fopen("test.txt", "r+b");
   while (!feof(f))
   {
-    unsigned char myByte = read<unsigned char>(f);
-    if (mapContains(mapaByteOcurrencias, myByte))
+    unsigned char byte = read<unsigned char>(f);
+    if (byte == '\0')
+      break;
+    if (!mapContains(mapaByteOcurrencias, byte))
     {
-      int *p = *mapGet(mapaByteOcurrencias, myByte);
+      mapPut(mapaByteOcurrencias, byte, 1);
+      continue;
     }
+    int ocurrencias = *mapGet<unsigned char, int>(mapaByteOcurrencias, byte);
+    mapPut(mapaByteOcurrencias, byte, ocurrencias + 1);
+  }
+  fclose(f);
+  while (mapHasNext<unsigned char, int>(mapaByteOcurrencias))
+  {
+    unsigned char key = mapNextKey<unsigned char, int>(mapaByteOcurrencias);
+    int value = *mapGet<unsigned char, int>(mapaByteOcurrencias, key);
+    tabla[mapaByteOcurrencias.pos].codigo = key;
+    tabla[mapaByteOcurrencias.pos].count = value;
   }
 }
 
