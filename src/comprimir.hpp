@@ -91,12 +91,8 @@ HuffmanTreeInfo *crearArbol(List<HuffmanTreeInfo *> lista)
     HuffmanTreeInfo *izq = listRemoveFirst<HuffmanTreeInfo *>(lista);
 
     long sumaOcurrencias = der->n + izq->n;
-    HuffmanTreeInfo *nuevoNodo = new HuffmanTreeInfo();
-
-    nuevoNodo->c = 255 + i;
-    nuevoNodo->n = sumaOcurrencias;
-    nuevoNodo->left = izq;
-    nuevoNodo->right = der;
+    HuffmanTreeInfo *nuevoNodo =
+        huffmanTreeInfo(255 + i, sumaOcurrencias, izq, der);
 
     listOrderedInsert<HuffmanTreeInfo *>(lista, nuevoNodo,
                                          cmpHuffmanTreeInfoCount);
