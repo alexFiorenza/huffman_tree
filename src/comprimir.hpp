@@ -26,6 +26,14 @@ int cmpHuffmanTreeInfoCount(HuffmanTreeInfo *a, HuffmanTreeInfo *b);
 void comprimir(string fName)
 {
   HuffmanTable tabla[256];
+
+  // Inicializar tabla
+  for (int i = 0; i < 256; i++)
+  {
+    tabla[i].codigo = "";
+    tabla[i].count = 0;
+  }
+
   contarOcurrencias(fName, tabla);
 
   List<HuffmanTreeInfo *> lista = list<HuffmanTreeInfo *>();
@@ -62,9 +70,7 @@ void contarOcurrencias(string fName, HuffmanTable tabla[])
   {
     unsigned char key = mapNextKey<unsigned char, int>(mapaByteOcurrencias);
     int value = *mapGet<unsigned char, int>(mapaByteOcurrencias, key);
-    cout << key << " " << value << endl;
-    tabla[mapaByteOcurrencias.pos].codigo = key;
-    tabla[mapaByteOcurrencias.pos].count = value;
+    tabla[key].count = value;
   }
 }
 
