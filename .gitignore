@@ -3,3 +3,4 @@ builds
 /.idea/
 /cmake-build-debug/
 /test-files/
+.DS_Store
