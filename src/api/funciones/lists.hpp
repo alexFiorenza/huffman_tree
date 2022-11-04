@@ -220,7 +220,7 @@ void sort(Node<T> *&p, int cmpTT(T, T))
 template <typename T>
 bool isEmpty(Node<T> *p)
 {
-  return p != NULL;
+  return p == NULL;
 }
 
 template <typename T>

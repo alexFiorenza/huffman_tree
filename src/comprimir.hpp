@@ -2,6 +2,8 @@
 #define COMPRIMIR_H_
 
 #include "api/funciones/files.hpp"
+#include "api/funciones/strings.hpp"
+#include "api/tads/BitWriter.hpp"
 #include "api/tads/Map.hpp"
 #include "api/tads/huffman/HuffmanSetup.hpp"
 #include <string>
@@ -20,6 +22,7 @@ void crearLista(List<HuffmanTreeInfo *> &lista, HuffmanTable tabla[]);
 HuffmanTreeInfo *crearArbol(List<HuffmanTreeInfo *> lista);
 void cargarCodigosEnTabla(HuffmanTreeInfo *raiz, HuffmanTable tabla[]);
 void grabarArchivoComprimido(string fName, HuffmanTable tabla[]);
+void grabarHuffmanHeader(FILE *fHuf, HuffmanTable tabla[]);
 
 int cmpHuffmanTreeInfoCount(HuffmanTreeInfo *a, HuffmanTreeInfo *b);
 
@@ -40,9 +43,7 @@ void comprimir(string fName)
   crearLista(lista, tabla);
 
   HuffmanTreeInfo *raiz = crearArbol(lista);
-
   cargarCodigosEnTabla(raiz, tabla);
-
   grabarArchivoComprimido(fName, tabla);
 }
 
@@ -111,12 +112,99 @@ HuffmanTreeInfo *crearArbol(List<HuffmanTreeInfo *> lista)
 
 void cargarCodigosEnTabla(HuffmanTreeInfo *raiz, HuffmanTable tabla[])
 {
-  // TODO
+  HuffmanTree tree = huffmanTree(raiz);
+  string cod;
+  // Recorro el huffman tree
+  while (huffmanTreeHasNext(tree))
+  {
+    // Se obtiene un puntero que apunte a la proxima hoja del arbol
+    HuffmanTreeInfo *x = huffmanTreeNext(tree, cod);
+    unsigned char byte = x->c;
+    tabla[byte].codigo = cod;
+  }
 }
 
 void grabarArchivoComprimido(string fName, HuffmanTable tabla[])
 {
-  // TODO
+  string nombreNuevo = fName + ".huf";
+
+  FILE *fHuf = fopen(nombreNuevo.c_str(), "wb");
+
+  grabarHuffmanHeader(fHuf,
+                      tabla); // Header que contiene el codigo de cada char.
+
+  FILE *fOrig = fopen(fName.c_str(), "rb");
+
+  unsigned int sizeOriginal = fileSize<unsigned char>(fOrig);
+
+  write<unsigned int>(fHuf, sizeOriginal); // Longitud del archivo original.
+
+  // Escribir el archivo comprimido.
+  BitWriter bwHuf = bitWriter(fHuf);
+
+  unsigned char byteOrig = read<unsigned char>(fOrig);
+  while (!feof(fOrig))
+  {
+    string codigo = tabla[(int)byteOrig].codigo;
+
+    // Escribir bit por bit el codigo.
+    for (int i = 0; i < length(codigo); i++)
+    {
+      int bit = codigo[i] == '1' ? 1 : 0;
+      bitWriterWrite(bwHuf, bit);
+    }
+
+    byteOrig = read<unsigned char>(fOrig);
+  }
+  // Terminar de escribir el ultimo byte
+  bitWriterFlush(bwHuf);
+
+  fclose(fOrig);
+  fclose(fHuf);
+}
+
+void grabarHuffmanHeader(FILE *fHuf, HuffmanTable tabla[])
+{
+  // Contar cuantas hojas hay.
+  int numHojas = 0;
+  for (int i = 0; i < 256; i++)
+  {
+    if (tabla[i].count > 0)
+    {
+      numHojas++;
+    }
+  }
+
+  // Escribir numero de hojas
+  write<unsigned char>(fHuf, numHojas);
+
+  // Escribir cada hoja con sus datos
+  for (int i = 0; i < 256; i++)
+  {
+    if (tabla[i].count <= 0)
+    {
+      continue;
+    }
+
+    write<unsigned char>(fHuf, i); // Codigo en ascii del elemento
+
+    write<unsigned char>(fHuf, length(tabla[i].codigo)); // Largo del codigo.
+
+    string codigo = tabla[i].codigo;
+
+    // Escribir el codigo bit por bit.
+    BitWriter bw = bitWriter(fHuf);
+    for (int j = 0; j < length(codigo); j++)
+    {
+      int bit = (codigo[j] == '1') ? 1 : 0;
+      bitWriterWrite(bw, bit);
+    }
+    // Si el codigo no era multiplo de 8, completar con 0s.
+    if (length(codigo) % 8 != 0)
+    {
+      bitWriterFlush(bw);
+    }
+  }
 }
 
 int cmpHuffmanTreeInfoCount(HuffmanTreeInfo *a, HuffmanTreeInfo *b)
