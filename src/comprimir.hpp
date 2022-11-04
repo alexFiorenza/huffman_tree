@@ -43,9 +43,7 @@ void comprimir(string fName)
   crearLista(lista, tabla);
 
   HuffmanTreeInfo *raiz = crearArbol(lista);
-
   cargarCodigosEnTabla(raiz, tabla);
-
   grabarArchivoComprimido(fName, tabla);
 }
 
@@ -114,7 +112,16 @@ HuffmanTreeInfo *crearArbol(List<HuffmanTreeInfo *> lista)
 
 void cargarCodigosEnTabla(HuffmanTreeInfo *raiz, HuffmanTable tabla[])
 {
-  // TODO
+  HuffmanTree tree = huffmanTree(raiz);
+  string cod;
+  // Recorro el huffman tree
+  while (huffmanTreeHasNext(tree))
+  {
+    // Se obtiene un puntero que apunte a la proxima hoja del arbol
+    HuffmanTreeInfo *x = huffmanTreeNext(tree, cod);
+    unsigned char byte = x->c;
+    tabla[byte].codigo = cod;
+  }
 }
 
 void grabarArchivoComprimido(string fName, HuffmanTable tabla[])

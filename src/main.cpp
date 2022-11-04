@@ -22,16 +22,17 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-  string fName = argv[1];
+  comprimir("test.txt");
+  // string fName = argv[1];
 
-  if (!endsWith(fName, ".huf"))
-  {
-    comprimir(fName);
-  }
-  else
-  {
-    descomprimir(fName);
-  }
+  // if (!endsWith(fName, ".huf"))
+  // {
+  //   comprimir(fName);
+  // }
+  // else
+  // {
+  //   descomprimir(fName);
+  // }
   return 0;
 }
 
