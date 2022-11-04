@@ -133,11 +133,11 @@ void grabarArchivoComprimido(string fName, HuffmanTable tabla[])
   grabarHuffmanHeader(fHuf,
                       tabla); // Header que contiene el codigo de cada char.
 
-  unsigned int sizeOriginal = fileSize<unsigned char>(fHuf);
+  FILE *fOrig = fopen(fName.c_str(), "rb");
+
+  unsigned int sizeOriginal = fileSize<unsigned char>(fOrig);
 
   write<unsigned int>(fHuf, sizeOriginal); // Longitud del archivo original.
-
-  FILE *fOrig = fopen(fName.c_str(), "rb");
 
   // Escribir el archivo comprimido.
   BitWriter bwHuf = bitWriter(fHuf);
@@ -145,16 +145,19 @@ void grabarArchivoComprimido(string fName, HuffmanTable tabla[])
   unsigned char byteOrig = read<unsigned char>(fOrig);
   while (!feof(fOrig))
   {
-    string codigo = tabla[byteOrig].codigo;
+    string codigo = tabla[(int)byteOrig].codigo;
 
     // Escribir bit por bit el codigo.
     for (int i = 0; i < length(codigo); i++)
     {
-      bitWriterWrite(bwHuf, codigo[i]);
+      int bit = codigo[i] == '1' ? 1 : 0;
+      bitWriterWrite(bwHuf, bit);
     }
 
     byteOrig = read<unsigned char>(fOrig);
   }
+  // Terminar de escribir el ultimo byte
+  bitWriterFlush(bwHuf);
 
   fclose(fOrig);
   fclose(fHuf);
