@@ -82,9 +82,48 @@ HuffmanTreeInfo *recomponerArbol(FILE *f)
   return raiz;
 }
 
-void grabarArchivoDescomprimido(HuffmanTreeInfo *ht, FILE *f, string nuevoFName)
+void grabarArchivoDescomprimido(HuffmanTreeInfo *ht, FILE *fComp,
+                                string nuevoFName)
 {
-  // TODO
+  FILE *fDesc = fopen(nuevoFName.c_str(), "wb");
+
+  // Leer numero de bytes del archivo original.
+  unsigned int bytesOriginal = read<unsigned int>(fComp);
+
+  // Crear BitReader.
+  BitReader br = bitReader(fComp);
+
+  // Leer hasta alcanzar la longitud original.
+  for (int i = 0; i < bytesOriginal; i++)
+  {
+    HuffmanTreeInfo *aux = ht;
+
+    // Leer hasta alcanzar un caracter completo.
+    bool completo = false;
+    while (!completo)
+    {
+      int bit = bitReaderRead(br);
+
+      // Desplazarse por el arbol
+      if (bit)
+      {
+        aux = aux->right;
+      }
+      else
+      {
+        aux = aux->left;
+      }
+
+      // Checkear si es una hoja
+      if (aux->left == NULL && aux->right == NULL)
+      {
+        completo = true;
+      }
+    }
+
+    // Escribir el caracter encontrado.
+    write<unsigned char>(fDesc, aux->c);
+  }
 }
 
 #endif
