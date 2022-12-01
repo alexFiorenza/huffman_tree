@@ -1,2 +1,5 @@
 builds
 .vscode
+/test-files/
+/cmake-build-debug/
+/.idea/
