@@ -11,9 +11,8 @@
 
 ## Instalación y uso 🧑🏻‍💻
 
-- Crea una carpeta en el directorio del proyecto llamado builds
-- Cada vez que quieras corrar un archivo en c++ corre el siguiente comando:
-
-```shell
-sh run.sh main param1 param2
+``` shell
+$ mkdir builds
+$ cmake --build builds
+$ ./builds/huffman_tree ARCHIVO
 ```
